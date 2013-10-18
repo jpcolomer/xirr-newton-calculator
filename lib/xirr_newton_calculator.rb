@@ -13,7 +13,7 @@ class XirrNewtonCalculator
 
   def initialize(flows, init_rate, max_iteration=1000)
    @flows = flows
-   @x_n = init_rate #< 1 ? 1 / (1 + init_rate) : 0.5
+   @x_n = init_rate
    @max_iteration = max_iteration
   end
 
@@ -26,7 +26,6 @@ class XirrNewtonCalculator
     	iteration += 1
     end
     @x_n
-    # discount_factor_to_irr(@x_n)
   end
 
   private 
