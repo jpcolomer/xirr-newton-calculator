@@ -30,21 +30,23 @@ class XirrNewtonCalculator
 
   private 
 
+  # Argument X_n
+  # Returns X_n+1
   def next_value(x)
   	x - @f_xn.to_f/dfdx(x)
   end
 
   def dfdx(x)
   	@flows.inject(0) do |result, flow|
-  		diff_date = (flow.date - @flows[0].date)/365
-  		result += flow.value * diff_date * x.to_f ** (diff_date -1)
+  		diff_date = (Date.parse(flow.date.to_s) - Date.parse(@flows[0].date.to_s))/365
+  		result += flow.amount* diff_date * x.to_f ** (diff_date -1)
   	end
   end
 
   def f(x)
   	@f_xn = @flows.inject(0) do |result, flow|
-  		diff_date = (flow.date - @flows[0].date)/365
-  		result += flow.value * x.to_f ** diff_date 
+      diff_date = (Date.parse(flow.date.to_s) - Date.parse(@flows[0].date.to_s))/365
+  		result += flow.amount * x.to_f ** diff_date 
   	end
   end
 

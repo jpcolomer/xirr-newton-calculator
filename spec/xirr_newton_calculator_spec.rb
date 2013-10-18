@@ -1,5 +1,5 @@
 require_relative '../lib/xirr_newton_calculator'
-Transaction = Struct.new(:value, :date)
+Transaction = Struct.new(:amount, :date)
 
 describe "XirrNewtonCalculator" do
   before :each do
