@@ -1,6 +1,6 @@
 SPEC = Gem::Specification.new do |s|
   s.name        = 'xirr_newton_calculator'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2013-10-17'
   s.author     = "JP Colomer"
   s.email       = 'jpcolomer@gmail.com'
