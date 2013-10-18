@@ -37,7 +37,7 @@ class XirrNewtonCalculator
   end
 
   def dfdx(x)
-  	@flows.inject(0) do |result, flow|
+  	@flows[1..-1].inject(0) do |result, flow|
   		diff_date = (Date.parse(flow.date.to_s) - Date.parse(@flows[0].date.to_s))/365
   		result += flow.amount* diff_date * x.to_f ** (diff_date -1)
   	end
