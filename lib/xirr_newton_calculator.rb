@@ -13,7 +13,7 @@ class XirrNewtonCalculator
 
   def initialize(flows, init_rate, max_iteration=1000)
    @flows = flows
-   @x_n = init_rate < 1 ? 1 / (1 + init_rate) : 0.5
+   @x_n = init_rate #< 1 ? 1 / (1 + init_rate) : 0.5
    @max_iteration = max_iteration
   end
 
@@ -25,7 +25,8 @@ class XirrNewtonCalculator
     	@x_n = next_value(@x_n)
     	iteration += 1
     end
-    discount_factor_to_irr(@x_n)
+    @x_n
+    # discount_factor_to_irr(@x_n)
   end
 
   private 
@@ -39,14 +40,14 @@ class XirrNewtonCalculator
   def dfdx(x)
   	@flows[1..-1].inject(0) do |result, flow|
   		diff_date = (Date.parse(flow.date.to_s) - Date.parse(@flows[0].date.to_s))/365
-  		result += flow.amount* diff_date * x.to_f ** (diff_date -1)
+  		result += flow.amount * (-diff_date) / ((1.0 + x) ** (diff_date + 1))
   	end
   end
 
   def f(x)
   	@f_xn = @flows.inject(0) do |result, flow|
       diff_date = (Date.parse(flow.date.to_s) - Date.parse(@flows[0].date.to_s))/365
-  		result += flow.amount * x.to_f ** diff_date 
+  		result += flow.amount / ((1 + x) ** diff_date)
   	end
   end
 

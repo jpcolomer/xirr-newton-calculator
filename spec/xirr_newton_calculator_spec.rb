@@ -68,21 +68,21 @@ describe "XirrNewtonCalculator" do
 
   describe "#f" do 
     it "returns 4 for x = 1" do
-      expect(xirr_calculator.send(:f, 1)).to eq 4
+      expect(xirr_calculator.send(:f, 0.2).round(1)).to eq 2.7
     end
 
     it "returns -9.3 for x = 0.1" do
-      expect(xirr_calculator.send(:f, 0.1).round(1)).to eq -9.3
+      expect(xirr_calculator.send(:f, 0.1).round(1)).to eq 3.3
     end
   end
 
   describe '#dfdx' do
-    it "returns 44.9 for x = 0.1" do
-      expect(xirr_calculator.send(:dfdx, 0.1).round(1)).to eq 44.9
+    it "returns -6.5 for x = 0.1" do
+      expect(xirr_calculator.send(:dfdx, 0.1).round(1)).to eq -6.5
     end
 
-    it "returns 7.3 for x = 1" do
-      expect(xirr_calculator.send(:dfdx, 1).round(1)).to eq 7.3
+    it "returns -3.1 for x = 1" do
+      expect(xirr_calculator.send(:dfdx, 1).round(1)).to eq -3.1
     end
   end
 
