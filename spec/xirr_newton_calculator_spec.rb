@@ -60,8 +60,8 @@ describe "XirrNewtonCalculator" do
     end
 
     it "returns proper value for x=1" do
-      xirr_calculator.stub(dfdx: 2)
-      xirr_calculator.f_xn = 1
+      xirr_calculator.stub(dfdx: 2.0)
+      xirr_calculator.stub(f: 1.0)
       expect(xirr_calculator.send(:next_value,1)).to eq 0.5
     end
   end
