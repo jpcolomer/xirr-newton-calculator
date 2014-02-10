@@ -20,10 +20,10 @@ class XirrNewtonCalculator
     @max_iteration = max_iteration
   end
 
-  def calculate
+  def calculate(eps = EPS)
     f(@x_n)
     @max_iteration.times do
-      break if @f_xn.abs < EPS
+      break if @f_xn.abs < eps
       @x_n = next_value(@x_n)
     end
     @x_n
@@ -31,21 +31,21 @@ class XirrNewtonCalculator
 
   private 
 
-  # Argument X_n
-  # Returns X_n+1
-  def next_value(x)
-    x - f(x) / dfdx(x)
-  end
-
-  def dfdx(x)
-    @flows[1..-1].inject(0) do |result, flow|
-      result += flow[:amount] * (-flow[:diff_date]) / ((1.0 + x) ** (flow[:diff_date] + 1.0))
+    # Argument X_n
+    # Returns X_n+1
+    def next_value(x)
+      x - f(x) / dfdx(x)
     end
-  end
 
-  def f(x)
-    @f_xn = @flows.inject(0) do |result, flow|
-      result += flow[:amount] / ((1.0 + x) ** flow[:diff_date])
+    def dfdx(x)
+      @flows[1..-1].inject(0) do |result, flow|
+        result += flow[:amount] * (-flow[:diff_date]) / ((1.0 + x) ** (flow[:diff_date] + 1.0))
+      end
     end
-  end
+
+    def f(x)
+      @f_xn = @flows.inject(0) do |result, flow|
+        result += flow[:amount] / ((1.0 + x) ** flow[:diff_date])
+      end
+    end
 end
