@@ -30,7 +30,7 @@ class XirrNewtonCalculator
   def calculate(eps = EPS)
     @max_iteration.times do |n|
       break if f(@x[n]).abs < eps
-      @x[n + 1] = next_value(@x[n])
+      break if @x[n] == @x[n + 1] = next_value(@x[n])
     end
     @x.last
   end
