@@ -15,8 +15,8 @@ describe "XirrNewtonCalculator" do
 
   let(:xirr_calculator) { XirrNewtonCalculator.new(@flows, @init_rate) }
 
-  describe "#calculate" do   
-    it "returns 0.789" do 
+  describe "#calculate" do
+    it "returns 0.789" do
       expect(xirr_calculator.calculate.round(3)).to eq 0.789
     end
 
@@ -28,9 +28,9 @@ describe "XirrNewtonCalculator" do
       flows << Transaction.new(10_030_258, Date.new(2014, 1, 7))
       flows << Transaction.new(10_039_489, Date.new(2014, 2, 7))
       flows << Transaction.new(10_048_642, Date.new(2014, 3, 7))
-      flows << Transaction.new(10_058_204, Date.new(2014, 4, 7))   
+      flows << Transaction.new(10_058_204, Date.new(2014, 4, 7))
       flows << Transaction.new(10_067_615, Date.new(2014, 5, 7))
-      flows << Transaction.new(10_077_241, Date.new(2014, 6, 9)) 
+      flows << Transaction.new(10_077_241, Date.new(2014, 6, 9))
       flows << Transaction.new(10_086_750, Date.new(2014, 7, 7))
       flows << Transaction.new(10_096_787, Date.new(2014, 8, 7))
       flows << Transaction.new(10_106_729, Date.new(2014, 9, 8))
@@ -44,8 +44,8 @@ describe "XirrNewtonCalculator" do
       flows << Transaction.new(10_191_572, Date.new(2015, 5, 7))
       flows << Transaction.new(10_202_851, Date.new(2015, 6, 8))
       flows << Transaction.new(10_214_228, Date.new(2015, 7, 7))
-      flows << Transaction.new(10_225_830, Date.new(2015, 8, 7)) 
-      flows << Transaction.new(10_237_550, Date.new(2015, 9, 7)) 
+      flows << Transaction.new(10_225_830, Date.new(2015, 8, 7))
+      flows << Transaction.new(10_237_550, Date.new(2015, 9, 7))
       flows << Transaction.new(10_249_432, Date.new(2015, 10, 7))
       xirr_calculator = XirrNewtonCalculator.new(flows, 0.15)
       expect(xirr_calculator.calculate.round(6)).to eq 0.141087
@@ -54,19 +54,18 @@ describe "XirrNewtonCalculator" do
 
   describe "#next_value" do
     it "calls dfdx" do
-      xirr_calculator.instance_variable_set(:@f_xn, 1)
       xirr_calculator.should_receive(:dfdx).with(10).and_return(1)
       xirr_calculator.send(:next_value,10)
     end
 
     it "returns proper value for x=1" do
       xirr_calculator.stub(dfdx: 2.0)
-      xirr_calculator.instance_variable_set(:@f_xn, 1)
+      xirr_calculator.stub(f: 1.0)
       expect(xirr_calculator.send(:next_value,1)).to eq 0.5
     end
   end
 
-  describe "#f" do 
+  describe "#f" do
     it "returns 4 for x = 1" do
       expect(xirr_calculator.send(:f, 0.2).round(1)).to eq 2.7
     end
