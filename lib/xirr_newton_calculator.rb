@@ -30,8 +30,12 @@ class XirrNewtonCalculator
   def calculate(eps = EPS)
     @eps = eps
     @max_iteration.times do |n|
+      prev_x = @x
       @x = next_value(@x)
-      return @return_x if @return_x
+      if @exit
+        @x = prev_x if f(prev_x).abs < f(@x).abs
+        break
+      end
     end
     @x
   end
@@ -42,7 +46,7 @@ class XirrNewtonCalculator
     # Returns X_n+1
     def next_value(x)
       next_x = x - f(x) / dfdx(x)
-      @return_x = x if next_x == x
+      @exit = x if (next_x - x).abs < @eps
       next_x
     end
 
@@ -52,7 +56,7 @@ class XirrNewtonCalculator
 
     def f(x)
       f_xn = npv(x, @f_flows)
-      @return_x = x if f_xn.abs < @eps
+      @exit = x if f_xn.abs < @eps
       f_xn
     end
 
