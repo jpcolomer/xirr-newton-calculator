@@ -23,16 +23,17 @@ class XirrNewtonCalculator
         flow.pow + 1.0
       )
     end
-    @x = [init_rate]
+    @x = init_rate
     @max_iteration = max_iteration
   end
 
   def calculate(eps = EPS)
+    @eps = eps
     @max_iteration.times do |n|
-      break if f(@x[n]).abs < eps
-      break if @x[n] == @x[n + 1] = next_value(@x[n])
+      @x = next_value(@x)
+      return @return_x if @return_x
     end
-    @x.last
+    @x
   end
 
   private
@@ -40,7 +41,9 @@ class XirrNewtonCalculator
     # Argument X_n
     # Returns X_n+1
     def next_value(x)
-      x - f(x) / dfdx(x)
+      next_x = x - f(x) / dfdx(x)
+      @return_x = x if next_x == x
+      next_x
     end
 
     def dfdx(x)
@@ -48,8 +51,9 @@ class XirrNewtonCalculator
     end
 
     def f(x)
-      @f_n    ||= {}
-      @f_n[x] ||= npv(x, @f_flows)
+      f_xn = npv(x, @f_flows)
+      @return_x = x if f_xn.abs < @eps
+      f_xn
     end
 
     def npv(x, flows)

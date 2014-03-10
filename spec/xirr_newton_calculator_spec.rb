@@ -54,6 +54,7 @@ describe "XirrNewtonCalculator" do
 
   describe "#next_value" do
     it "calls dfdx" do
+      xirr_calculator.instance_variable_set(:@eps, XirrNewtonCalculator::EPS)
       xirr_calculator.should_receive(:dfdx).with(10).and_return(1)
       xirr_calculator.send(:next_value,10)
     end
@@ -67,10 +68,12 @@ describe "XirrNewtonCalculator" do
 
   describe "#f" do
     it "returns 4 for x = 1" do
+      xirr_calculator.instance_variable_set(:@eps, XirrNewtonCalculator::EPS)
       expect(xirr_calculator.send(:f, 0.2).round(1)).to eq 2.7
     end
 
     it "returns -9.3 for x = 0.1" do
+      xirr_calculator.instance_variable_set(:@eps, XirrNewtonCalculator::EPS)
       expect(xirr_calculator.send(:f, 0.1).round(1)).to eq 3.3
     end
   end
